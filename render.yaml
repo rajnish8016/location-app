@@ -1,8 +1,7 @@
 services:
   - type: web
-    name: my-node-app  # 🔁 Change to your unique app name
-    runtime: node      # ✅ Correct key for Node.js
+    name: your-app-name        # Replace with your actual app name
+    env: node
     buildCommand: npm install
     startCommand: node server.js
-    branch: main
-    region: oregon     # Optional: set your region
+    plan: free
