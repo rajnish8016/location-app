@@ -1,20 +1,25 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
 const path = require('path');
+
 const app = express();
+const PORT = process.env.PORT || 3000;
 
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.json());
-
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+app.use(cors());
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname))); // Serve static files
 
 app.post('/location', (req, res) => {
-  console.log('Received location:', req.body);
-  res.status(200).send('Location received');
+  const { latitude, longitude } = req.body;
+  console.log('Received location:', { latitude, longitude });
+  res.sendStatus(200);
 });
 
-const PORT = process.env.PORT || 3000;
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
