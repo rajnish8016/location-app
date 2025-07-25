@@ -1,24 +1,21 @@
-const express = require('express');
-const path = require('path');
-const bodyParser = require('body-parser');
-
+const express = require("express");
+const bodyParser = require("body-parser");
 const app = express();
 const port = process.env.PORT || 10000;
 
-// Middleware
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname + "/public"));
 
-// Endpoint to receive location
-app.post('/location', (req, res) => {
-  const { mapLink } = req.body;
-  console.log('Received Google Maps link:', mapLink);
-  res.status(200).send('Location link received');
-});
+app.post("/location", (req, res) => {
+  const { mapsUrl } = req.body;
 
-// Serve index.html
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/index.html'));
+  if (mapsUrl) {
+    console.log("Received Google Maps link:", mapsUrl);
+    res.json({ status: "success", link: mapsUrl });
+  } else {
+    console.log("Google Maps link not found in request.");
+    res.status(400).json({ status: "error", message: "No location data" });
+  }
 });
 
 app.listen(port, () => {

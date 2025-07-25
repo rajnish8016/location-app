@@ -2,16 +2,43 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Location Sender</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+
+    button {
+      padding: 15px 30px;
+      font-size: 1.2em;
+      font-weight: bold;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    @media (max-width: 600px) {
+      button {
+        width: 100%;
+        font-size: 1.5em;
+      }
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Share Your Location</h1>
-    <button id="sendBtn">📍 Send Location</button>
-    <p id="status"></p>
-  </div>
+  <h1>Send Your Location</h1>
+  <button onclick="sendLocation()">Send Location</button>
+
   <script src="script.js"></script>
 </body>
 </html>
