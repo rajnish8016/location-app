@@ -1,23 +1,61 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const app = express();
-const port = process.env.PORT || 10000;
+function sendLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
 
-app.use(bodyParser.json());
-app.use(express.static(__dirname + "/public"));
+        const mapsUrl = `https://www.google.com/maps?q=${lat},${lon}`;
+        console.log("Generated Maps URL:", mapsUrl);
 
-app.post("/location", (req, res) => {
-  const { mapsUrl } = req.body;
-
-  if (mapsUrl) {
-    console.log("Received Google Maps link:", mapsUrl);
-    res.json({ status: "success", link: mapsUrl });
+        fetch("/location", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ mapsUrl }),
+        })
+          .then((res) => {
+            if (!res.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return res.json();
+          })
+          .then((data) => {
+            console.log("✅ Location sent:", data);
+            showPopup("✅ Location sent successfully!", true);
+          })
+          .catch((err) => {
+            console.error("❌ Error sending location:", err);
+            showPopup("❌ Failed to send location.", false);
+          });
+      },
+      (err) => {
+        console.error("❌ Geolocation error:", err.message);
+        showPopup("❌ Failed to access location.", false);
+      }
+    );
   } else {
-    console.log("Google Maps link not found in request.");
-    res.status(400).json({ status: "error", message: "No location data" });
+    alert("Geolocation is not supported by this browser.");
   }
-});
+}
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+function showPopup(message, isSuccess) {
+  const popup = document.createElement("div");
+  popup.innerText = message;
+  popup.style.position = "fixed";
+  popup.style.bottom = "20px";
+  popup.style.left = "50%";
+  popup.style.transform = "translateX(-50%)";
+  popup.style.backgroundColor = isSuccess ? "#4caf50" : "#f44336";
+  popup.style.color = "white";
+  popup.style.padding = "10px 20px";
+  popup.style.borderRadius = "5px";
+  popup.style.boxShadow = "0 2px 10px rgba(0,0,0,0.3)";
+  popup.style.zIndex = "1000";
+  document.body.appendChild(popup);
+
+  setTimeout(() => {
+    document.body.removeChild(popup);
+  }, 3000);
+}

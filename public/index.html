@@ -2,43 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Location Sender</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 20px;
-    }
-
-    button {
-      padding: 15px 30px;
-      font-size: 1.2em;
-      font-weight: bold;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-
-    button:hover {
-      background-color: #45a049;
-    }
-
-    @media (max-width: 600px) {
-      button {
-        width: 100%;
-        font-size: 1.5em;
-      }
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Location Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
 </head>
 <body>
-  <h1>Send Your Location</h1>
+
+  <h1>Send My Location</h1>
   <button onclick="sendLocation()">Send Location</button>
 
-  <script src="script.js"></script>
+  <p id="status">Waiting for location...</p>
+
+  <!-- Success Popup -->
+  <div id="popup">✅ Location sent successfully!</div>
+
 </body>
 </html>
