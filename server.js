@@ -1,30 +1,26 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
 const path = require('path');
+const bodyParser = require('body-parser');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const port = process.env.PORT || 10000;
 
-app.use(cors());
+// Middleware
 app.use(bodyParser.json());
-
-// Serve static files from "public"
 app.use(express.static(path.join(__dirname, 'public')));
 
-// POST endpoint
+// Endpoint to receive location
 app.post('/location', (req, res) => {
-  const { latitude, longitude } = req.body;
-  console.log('Received location:', { latitude, longitude });
-  res.sendStatus(200);
+  const { mapLink } = req.body;
+  console.log('Received Google Maps link:', mapLink);
+  res.status(200).send('Location link received');
 });
 
 // Serve index.html
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`✅ Server running on port ${PORT}`);
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
